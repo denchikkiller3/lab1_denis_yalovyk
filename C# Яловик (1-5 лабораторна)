@@ -1,4 +1,4 @@
-//Лаб 1, варіант 27(12)
+//Лаб 1
 using System;
 namespace lab1
 {
@@ -22,7 +22,7 @@ namespace lab1
 
 
 
-//Лаб 2, варіант 27(12)
+//Лаб 2
 using System;
 using System.Text;
 
@@ -45,3 +45,198 @@ namespace lab2
   }
 }
 
+
+
+// Лаб 3
+using System;
+
+namespace lab3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введіть непарне трьохзначне число: ");
+            int num = int.Parse(Console.ReadLine());
+            Console.Write("Ви ввели таке число: ");
+            Console.WriteLine(num);
+            if (num >= 100)
+            {
+
+                if (num / 100 + num % 10 == 2 * (num / 10) % 10)
+                    Console.Write("Правильно");
+
+                else
+                    Console.Write("Неправильно");
+
+            }
+            else
+            Console.Write("Неправильне число, введіть непарне трьохзначне число!!!");
+            Console.ReadLine();
+        }
+    }
+}
+
+
+
+//Лаб 4
+using System;
+
+namespace lab4
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введіть кількість елементів масиву:\t");
+            int lenthOfArray = int.Parse(Console.ReadLine());
+            int[] Array = new int[lenthOfArray];
+            int N = 0;
+            for (int i = 0; i < Array.Length; i++)
+            {
+                Console.Write($"Введіть елемент масива під індексом {i}:\t");
+                Array[i] = int.Parse(Console.ReadLine());
+            }
+            Console.Write("Вивод масиву:\n");
+            for (int i = 0; i < Array.Length; i++)
+            {
+                Console.WriteLine(Array[i]);
+            }
+            for (int i = 0; i < Array.Length; i++)
+            {
+            
+            if (i > 1)
+                    if ((Array[i] > Array[i - 1]) && (Array[i - 1] < Array[i - 2]))
+                    {
+                        N++;
+                    }
+                    else
+                    {
+                        if ((Array[i] < Array[i - 1]) && (Array[i - 1] > Array[i - 2]))
+                            N++;
+                        else
+                        if ((Array[i] == Array[i - 1]) && (Array[i - 1] != Array[i - 2]))
+                            N++;
+                    }
+            }
+            Console.WriteLine();
+        }
+
+    }
+}
+
+
+//Лаб 5
+using System;
+ 
+namespace lab5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var m = 3; // Висота
+            var n = 3; // Ширина
+            var a = new int[,]{
+                {5, 0, -2},
+                {4, 2, 1},
+                {-7, 3, 0}
+            };
+ 
+            ShowMatrix(m, n, a);
+            Console.WriteLine();
+            Console.WriteLine("а) строку з нулей перед усіма строками, у яких кількість позитивних елементів дорівнює кількості негативних;");
+            {
+                int m2 = m;
+                for (int i = 0; i < m; i++)
+                {
+                    var positiveCount = 0;
+                    var negativeCount = 0;
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (a[i, j] > 0) ++positiveCount;
+                        else if (a[i, j] < 0) ++negativeCount;
+                    }
+                    if (positiveCount == negativeCount) ++m2;
+                }
+ 
+                var b1 = new int[m2, n];
+                var i1 = 0; // i другого масиву
+                for (int i = 0; i < m; ++i, ++i1)
+                {
+                    var positiveCount = 0;
+                    var negativeCount = 0;
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (a[i, j] > 0) ++positiveCount;
+                        else if (a[i, j] < 0) ++negativeCount;
+                    }
+                    if (positiveCount == negativeCount)
+                    {
+                        for (int j = 0; j < n; j++)
+                            b1[i1, j] = 0;
+                        ++i1;
+                    }
+                    for (int j = 0; j < n; j++)
+                        b1[i1, j] = a[i, j];
+                }
+ 
+                ShowMatrix(m2, n, b1);
+            }
+            Console.WriteLine();
+            Console.WriteLine("б) стовбчик з чисел 0 перед усіма стовбчиками, у яких кількість позитивних елементів більше кількості негативних.");
+            {
+                int n2 = n;
+                for (int j = 0; j < n; j++)
+                {
+                    var positiveCount = 0;
+                    var negativeCount = 0;
+                    for (int i = 0; i < m; i++)
+                    {
+                        if (a[i, j] > 0) ++positiveCount;
+                        else if (a[i, j] < 0) ++negativeCount;
+                    }
+                    if (positiveCount > negativeCount) ++n2;
+                }
+ 
+                var b1 = new int[m, n2];
+                var j1 = 0; // i для другого масиву
+                for (int j = 0; j < n; ++j, ++j1)
+                {
+                    var positiveCount = 0;
+                    var negativeCount = 0;
+                    for (int i = 0; i < m; i++)
+                    {
+                        if (a[i, j] > 0) ++positiveCount;
+                        else if (a[i, j] < 0) ++negativeCount;
+                    }
+                    if (positiveCount > negativeCount)
+                    {
+                        for (int i = 0; i < m; i++)
+                            b1[i, j1] = 0;
+                        ++j1;
+                    }
+                    for (int i = 0; i < m; i++)
+                        b1[i, j1] = a[i, j];
+                }
+ 
+                ShowMatrix(m, n2, b1);
+            }
+ 
+            Console.ReadKey();
+        }
+ 
+        private static void ShowMatrix(int m, int n, int[,] array)
+        {
+            // Вивод на екран
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Console.Write(array[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
